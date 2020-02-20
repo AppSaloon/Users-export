@@ -1,0 +1,64 @@
+{
+  "name": "appsaloon/user-export",
+  "description": "Exports users to csv file",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "appsaloon",
+    "users",
+    "export",
+    "csv"
+  ],
+  "homepage": "https://appsaloon.be",
+  "authors": [
+    {
+      "name": "Aytac Kokus",
+      "email": "aytac@appsaloon.be",
+      "homepage": "https://appsaloon.be"
+    },
+    {
+      "name": "Koen Gabrïels",
+      "email": "aytac@appsaloon.be",
+      "homepage": "https://appsaloon.be"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "appsaloon\\ux\\": "src/"
+    }
+  },
+  "type": "wordpress-plugin",
+  "require": {
+    "composer/installers": "v1.0.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "7.*",
+    "10up/wp_mock": "0.4.2",
+    "jms/serializer": "1.7.*",
+    "phpdocumentor/phpdocumentor": "^2.9",
+    "vlucas/phpdotenv": "^3"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://wp-languages.github.io"
+    }
+  ],
+  "extra": {
+    "dropin-paths": {
+      "wp-content/languages/": [
+        "vendor:koodimonni-language"
+      ]
+    },
+    "installer-paths": {
+      "../{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    },
+    "wordpress-install-dir": "wp"
+  }
+}
