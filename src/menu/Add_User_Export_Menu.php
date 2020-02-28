@@ -2,7 +2,11 @@
 
 namespace appsaloon\ux\menu;
 
+use appsaloon\ux\helper\Helper;
+
 class Add_User_Export_Menu {
+
+	CONST MENU_SLUG = 'as-export-users';
 
 	/**
 	 * Register menu
@@ -19,13 +23,19 @@ class Add_User_Export_Menu {
 	 * @since 1.0.0
 	 */
 	public function add_submenu() {
-		add_users_page(
+		$page = add_users_page(
 			'Export users',
 			'Export users',
 			'manage_options',
-			'as-export-users',
+			static::MENU_SLUG,
 			array( $this, 'menu_content' )
 		);
+
+		add_action( 'load-' . $page, array( $this, 'add_javascript_to_the_settings_page' ) );
+	}
+
+	public function add_javascript_to_the_settings_page() {
+		wp_enqueue_script( 'user-export-settings', ASUX_PLUGIN_URL . 'assets/js/user-export-settings.js' );
 	}
 
 	/**
@@ -34,9 +44,30 @@ class Add_User_Export_Menu {
 	 * @since 1.0.0
 	 */
 	public function menu_content() {
-		$user_fields = $this->get_user_fields();
+		if( isset( $_POST['btnSave'] ) ) {
+			var_dump( $_POST );
+			die;
+		}
+		$profile_id = ( isset( $_GET['asux_profile'] ) ) ? sanitize_text_field( $_GET['asux_profile'] ) : '';
 
-		require_once ASUX_PLUGIN_DIR . "templates/backend/add-user-export-setting-content.php";
+		if ( $profile_id !== '' ) {
+			if ( $profile_id !== "-1" ) {
+				// get profile
+				$profile = Helper::get_profile_by_id( $profile_id );
+			}
+
+			$user_fields = $this->get_user_fields();
+
+			require_once ASUX_PLUGIN_DIR . "templates/backend/settings/export.php";
+
+			// stop here
+			return;
+		}
+
+		$url      = Helper::reconstruct_url();
+		$profiles = Helper::get_profiles();
+
+		require_once ASUX_PLUGIN_DIR . "templates/backend/settings/profiles.php";
 	}
 
 	/**
@@ -78,6 +109,13 @@ class Add_User_Export_Menu {
 		return $user_fields;
 	}
 
+	/**
+	 * Returns all meta fields for an user
+	 *
+	 * @return array|bool
+	 *
+	 * @since 1.0.0
+	 */
 	private function get_user_meta_fields() {
 		global $wpdb;
 
