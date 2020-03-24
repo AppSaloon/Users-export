@@ -20,6 +20,7 @@ if ( ! file_exists( ASUX_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
 }
 
 require_once ASUX_PLUGIN_DIR . 'vendor/autoload.php';
+require_once ASUX_PLUGIN_DIR . 'lib/filters.php';
 
 use appsaloon\ux\Plugin;
 
