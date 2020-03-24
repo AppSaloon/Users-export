@@ -1,0 +1,13 @@
+node_modules
+.phpunit*
+composer.json
+composer.lock
+yarn.lock
+package.json
+post-css-config.js
+webpack.config.js
+assets
+.git
+.gitignore
+.distignore
+.editorconfig
