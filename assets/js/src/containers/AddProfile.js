@@ -84,6 +84,10 @@ const AddProfile = ( { navigateToTab } ) => {
 	const onSubmit = useCallback( async ( e ) => {
 		e.preventDefault();
 
+		if(profileName.length < 3) {
+			return alert(__('Please enter a profile name', 'asux'));
+		}
+
 		const postData = {
 			title: profileName,
 			status: 'publish',
@@ -121,7 +125,7 @@ const AddProfile = ( { navigateToTab } ) => {
 								label={ __( 'Profile name', 'asux' ) }
 								placeholder={ __( 'New profile', 'asux' ) }
 								value={ profileName }
-								onChange={ ( name ) => setProfileName( name ) }
+								onChange={ ( name ) => setProfileName( name.trim() ) }
 								autoFocus
 							/>
 						</PanelRow>
