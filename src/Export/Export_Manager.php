@@ -135,7 +135,7 @@ class Export_Manager {
 
 		if ( ! empty( $date_conditional ) ) {
 			$date_conditional = apply_filters( 'asux/export-query/date-conditional', $date_conditional, $profile_id );
-			$where            .= "AND u.user_registered {$date_conditional}";
+			$where            .= " AND u.user_registered {$date_conditional}";
 		}
 
 		$query .= "\n" . apply_filters( 'asux/export-query/where', $where, $profile_id );
