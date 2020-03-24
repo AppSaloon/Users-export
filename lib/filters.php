@@ -7,7 +7,9 @@
 
 use appsaloon\ux\Export\Profile_Manager;
 
-add_filter( 'asux/field-value/wp_capabilities', static function ( $capabilities ) {
+global $wpdb;
+
+add_filter( "asux/field-value/{$wpdb->prefix}capabilities", static function ( $capabilities ) {
 	static $roles;
 	$roles = Profile_Manager::get_user_roles();
 
