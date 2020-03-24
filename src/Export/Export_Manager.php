@@ -99,7 +99,7 @@ class Export_Manager {
 		$query .= apply_filters( 'asux/export-query/select', $select, $profile_id );
 
 		$from  = "\nFROM {$wpdb->users} u
-	LEFT JOIN {$wpdb->usermeta} um0 ON (um0.user_id = u.ID AND um0.meta_key = 'wp_capabilities')
+	LEFT JOIN {$wpdb->usermeta} um0 ON (um0.user_id = u.ID AND um0.meta_key = '{$wpdb->prefix}capabilities')
 	LEFT JOIN {$wpdb->usermeta} um1 ON (um1.user_id = u.ID)";
 		$query .= apply_filters( 'asux/export-query/from', $from, $profile_id );
 		/* Filter part */
