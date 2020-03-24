@@ -84,8 +84,8 @@ const AddProfile = ( { navigateToTab } ) => {
 	const onSubmit = useCallback( async ( e ) => {
 		e.preventDefault();
 
-		if(profileName.length < 3) {
-			return alert(__('Please enter a profile name', 'asux'));
+		if ( profileName.length < 3 ) {
+			return alert( __( 'Please enter a profile name', 'asux' ) );
 		}
 
 		const postData = {
@@ -125,7 +125,13 @@ const AddProfile = ( { navigateToTab } ) => {
 								label={ __( 'Profile name', 'asux' ) }
 								placeholder={ __( 'New profile', 'asux' ) }
 								value={ profileName }
-								onChange={ ( name ) => setProfileName( name.trim() ) }
+								help={ __(
+									'Give this profile a name, so you can recognize it later.',
+									'asux'
+								) }
+								onChange={ ( name ) =>
+									setProfileName( name.trim() )
+								}
 								autoFocus
 							/>
 						</PanelRow>
@@ -147,14 +153,29 @@ const AddProfile = ( { navigateToTab } ) => {
 							}
 						/>
 						<PanelRow>
-							<h3>
-								{ __( 'Filter by registration date', 'asux' ) }
-							</h3>
+							<header>
+								<h3>
+									{ __(
+										'Filter by registration date',
+										'asux'
+									) }
+								</h3>
+								<p>
+									{ __(
+										'You can optionally filter the user export based on the registration date.',
+										'asux'
+									) }
+								</p>
+							</header>
 						</PanelRow>
 						<PanelRow>
 							<DateFieldWithPicker
 								label={ __( 'Registered before', 'asux' ) }
 								value={ profileRegistrationDateFilter.before }
+								help={ __(
+									'When set, only users exported from before this date will be exported.',
+									'asux'
+								) }
 								onChange={ ( before ) =>
 									setProfileRegistrationDateFilter(
 										( filter ) => ( { ...filter, before } )
@@ -166,6 +187,10 @@ const AddProfile = ( { navigateToTab } ) => {
 							<DateFieldWithPicker
 								label={ __( 'Registered after', 'asux' ) }
 								value={ profileRegistrationDateFilter.after }
+								help={ __(
+									'When set, only users exported after before this date will be exported.',
+									'asux'
+								) }
 								onChange={ ( after ) =>
 									setProfileRegistrationDateFilter(
 										( filter ) => ( { ...filter, after } )

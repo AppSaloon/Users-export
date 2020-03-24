@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from '@wordpress/element';
-import { PanelRow } from '@wordpress/components';
+import { PanelRow, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { RestrictedFormTokenField } from './';
@@ -73,6 +73,10 @@ const FieldSelector = ( { value, onChange, ...props } ) => {
 						processChanges( { userFields: tokens } )
 					}
 					value={ value.userFields }
+					help={ __(
+						'Select the core user fields to include in the export.',
+						'asux'
+					) }
 					displayTransform={ ( token ) => prettifyField( token ) }
 					{ ...props }
 				/>
@@ -83,6 +87,10 @@ const FieldSelector = ( { value, onChange, ...props } ) => {
 					label={ __( 'Meta fields', 'asux' ) }
 					placeholder={ __(
 						'What meta fields would you like to include?',
+						'asux'
+					) }
+					help={ __(
+						'Select the user-related fields to include in the export.',
 						'asux'
 					) }
 					suggestions={ fieldSelectors.metaFields }
