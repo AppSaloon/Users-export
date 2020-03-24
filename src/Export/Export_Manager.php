@@ -143,8 +143,10 @@ class Export_Manager {
 		$query .= "\nGROUP BY u.ID, um0.meta_value";
 
 		$results = $wpdb->get_results( $query, ARRAY_A );
+		update_post_meta( $profile_id, '_asux_last_run', time() );
 
 		$output_stream = fopen( 'php://output', 'wb' );
+		ob_start();
 
 		fputcsv( $output_stream, $field_names );
 
@@ -167,9 +169,9 @@ class Export_Manager {
 			);
 		}
 
-		$filename = "{$profile->post_name}.csv";
+		$output = ob_get_clean();
 
-		update_post_meta( $profile_id, '_asux_last_run', time() );
+		$filename = "{$profile->post_name}.csv";
 
 		// Output CSV-specific headers
 		header( 'Pragma: public' );
@@ -180,8 +182,6 @@ class Export_Manager {
 		header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
 		header( 'Content-Transfer-Encoding: binary' );
 
-		fpassthru( $output_stream );
-
-		die();
+		exit( $output );
 	}
 }
