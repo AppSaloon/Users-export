@@ -149,7 +149,22 @@ class Export_Manager {
 		fputcsv( $output_stream, $field_names );
 
 		foreach ( $results as $result ) {
-			fputcsv( $output_stream, $result );
+			fputcsv( $output_stream, array_map(
+					static function ( $field_name ) use ( $result ) {
+						$field_value = $result[ $field_name ];
+
+						$field_value = apply_filters( 'asux/field-value', $field_value, $field_name );
+						$field_value = apply_filters(
+							"asux/field-value/{$field_name}",
+							$field_value,
+							$field_name
+						);
+
+						return $field_value;
+					},
+					array_keys( $result )
+				)
+			);
 		}
 
 		$filename = "{$profile->post_name}.csv";
