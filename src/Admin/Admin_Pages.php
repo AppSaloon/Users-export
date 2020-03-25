@@ -42,7 +42,7 @@ class Admin_Pages {
 	}
 
 	public function add_javascript_to_the_settings_page() {
-		if ( $_GET['page'] !== static::MENU_SLUG ) {
+		if ( !isset($_GET['page']) || $_GET['page'] !== static::MENU_SLUG ) {
 			return;
 		}
 
