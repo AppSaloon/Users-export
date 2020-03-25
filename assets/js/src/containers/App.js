@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from '@wordpress/element';
+import React, { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { AddProfile, Profiles } from './';
 import { TabPanel } from '../components';
-import {useSelect} from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
 const onSelect = () => {
@@ -33,7 +33,7 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 
 	const [ roles, setRoles ] = useState( {
 		loading: true,
-		roles: {}
+		roles: {},
 	} );
 
 	const profiles = useSelect(
@@ -109,13 +109,24 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 					name: 'profiles',
 					title: __( 'Export profiles', 'asux' ),
 					className: tabClassName,
-					component: ({navigateToTab}) => <Profiles profiles={profiles} navigateToTab={navigateToTab} />,
+					component: ( { navigateToTab } ) => (
+						<Profiles
+							profiles={ profiles }
+							navigateToTab={ navigateToTab }
+						/>
+					),
 				},
 				{
 					name: 'add_profile',
 					title: __( 'Add profile', 'asux' ),
 					className: tabClassName,
-					component: ({navigateToTab}) => <AddProfile fieldSelectors={fieldSelectors} roles={roles} navigateToTab={navigateToTab} />,
+					component: ( { navigateToTab } ) => (
+						<AddProfile
+							fieldSelectors={ fieldSelectors }
+							roles={ roles }
+							navigateToTab={ navigateToTab }
+						/>
+					),
 				},
 			] }
 		>

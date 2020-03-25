@@ -56,7 +56,7 @@ const Profile = ( {
 	);
 };
 
-const Profiles = ({profiles}) => {
+const Profiles = ( { profiles } ) => {
 	const trashProfile = useCallback( async ( id ) => {
 		await apiFetch( {
 			path: `/wp/v2/asux_export-profile/${ id }`,
