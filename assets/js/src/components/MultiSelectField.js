@@ -1,25 +1,26 @@
 import React from '@wordpress/element';
 import { BaseControl } from '@wordpress/components';
 import { SelectControl } from '@woocommerce/components';
-import { prettifyField } from '../util';
 import sortBy from 'lodash/sortBy';
+import isArray from 'lodash/isArray';
 import { __ } from '@wordpress/i18n';
+import { prettifyField } from '../util';
 
 const suggestionsToOptions = ( suggestions, values ) => {
-	if ( typeof suggestions === 'object' ) {
-		return Object.entries( suggestions ).map( ( [ key, label ] ) => ( {
-			key: key,
-			label: label,
-			value: { id: key },
-			isDisabled: values.includes( key ),
+	if ( isArray( suggestions ) ) {
+		return suggestions.map( ( suggestion ) => ( {
+			key: suggestion,
+			label: prettifyField( suggestion ),
+			value: { id: suggestion },
+			isDisabled: values.includes( suggestion ),
 		} ) );
 	}
 
-	return suggestions.map( ( suggestion ) => ( {
-		key: suggestion,
-		label: prettifyField( suggestion ),
-		value: { id: suggestion },
-		isDisabled: values.includes( suggestion ),
+	return Object.entries( suggestions ).map( ( [ key, label ] ) => ( {
+		key: key,
+		label: label,
+		value: { id: key },
+		isDisabled: values.includes( key ),
 	} ) );
 };
 
