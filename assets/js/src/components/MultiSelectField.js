@@ -1,5 +1,5 @@
 import React from '@wordpress/element';
-import { BaseControl, FormTokenField } from '@wordpress/components';
+import { BaseControl } from '@wordpress/components';
 import { SelectControl } from '@woocommerce/components';
 import { prettifyField } from './FieldSelector';
 import sortBy from 'lodash/sortBy';

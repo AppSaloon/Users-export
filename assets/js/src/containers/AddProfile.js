@@ -58,7 +58,7 @@ const defaultProfileFields = {
 	},
 };
 
-const AddProfile = ( { navigateToTab } ) => {
+const AddProfile = ( { navigateToTab, fieldSelectors } ) => {
 	const [ profileName, setProfileName ] = useState(
 		defaultProfileFields.name
 	);
@@ -141,6 +141,7 @@ const AddProfile = ( { navigateToTab } ) => {
 					</PanelHeader>
 					<PanelBody>
 						<FieldSelector
+							fieldSelectors={ fieldSelectors }
 							value={ profileSelectors }
 							onChange={ ( selectors ) =>
 								setProfileSelectors( selectors )

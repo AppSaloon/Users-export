@@ -56,21 +56,7 @@ const Profile = ( {
 	);
 };
 
-const Profiles = () => {
-	const profiles = useSelect(
-		( select ) =>
-			select( 'core' ).getEntityRecords(
-				'postType',
-				'asux_export-profile',
-				{
-					per_page: -1,
-					orderby: 'modified',
-					order: 'desc',
-				}
-			),
-		[]
-	);
-
+const Profiles = ({profiles}) => {
 	const trashProfile = useCallback( async ( id ) => {
 		await apiFetch( {
 			path: `/wp/v2/asux_export-profile/${ id }`,

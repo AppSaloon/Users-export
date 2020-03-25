@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from '@wordpress/element';
-import { PanelRow, Spinner, TextControl } from '@wordpress/components';
+import React from '@wordpress/element';
+import { PanelRow, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
-import { MultiSelectField, RestrictedFormTokenField } from './';
+import { MultiSelectField } from './';
 
 export const prettifyField = ( field ) => {
 	const words = field.split( /[-_]/ );
@@ -15,13 +14,7 @@ export const prettifyField = ( field ) => {
 	return words.join( ' ' );
 };
 
-const FieldSelector = ( { value, onChange, ...props } ) => {
-	const [ isLoading, setLoading ] = useState( true );
-	const [ fieldSelectors, setFieldSelectors ] = useState( {
-		userFields: [],
-		metaFields: [],
-	} );
-
+const FieldSelector = ( { value, onChange, fieldSelectors, ...props } ) => {
 	const processChanges = ( changes ) => {
 		const newValue = { ...value, ...changes };
 
@@ -30,38 +23,10 @@ const FieldSelector = ( { value, onChange, ...props } ) => {
 		}
 	};
 
-	useEffect( () => {
-		let mounted = true;
-
-		( async () => {
-			const request = await apiFetch( {
-				path: `/asux/v1/fields`,
-			} );
-
-			if ( request.success && mounted ) {
-				const {
-					user_fields: userFields,
-					meta_fields: metaFields,
-				} = request.data;
-
-				setFieldSelectors( {
-					userFields,
-					metaFields,
-				} );
-
-				setLoading( false );
-			}
-		} )();
-
-		return () => {
-			mounted = false;
-		};
-	}, [] );
-
 	return (
 		<>
 			<PanelRow>
-				{ isLoading ? (
+				{ fieldSelectors.loading ? (
 					<Spinner />
 				) : (
 					<MultiSelectField
@@ -84,7 +49,7 @@ const FieldSelector = ( { value, onChange, ...props } ) => {
 				) }
 			</PanelRow>
 			<PanelRow>
-				{ isLoading ? (
+				{ fieldSelectors.loading ? (
 					<Spinner />
 				) : (
 					<MultiSelectField

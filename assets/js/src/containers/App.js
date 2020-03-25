@@ -1,7 +1,9 @@
-import React, { useState } from '@wordpress/element';
+import React, {useEffect, useState} from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { AddProfile, Profiles } from './';
 import { TabPanel } from '../components';
+import {useSelect} from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
 
 const onSelect = () => {
 	return <>Selected</>;
@@ -23,6 +25,53 @@ const App = () => {
 const Tabs = ( { initialTabName = 'profiles' } ) => {
 	const tabClassName = 'asux__main-tabs-tab';
 
+	const profiles = useSelect(
+		( select ) =>
+			select( 'core' ).getEntityRecords(
+				'postType',
+				'asux_export-profile',
+				{
+					per_page: -1,
+					orderby: 'modified',
+					order: 'desc',
+				}
+			),
+		[]
+	);
+
+	const [ fieldSelectors, setFieldSelectors ] = useState( {
+		loading: true,
+		userFields: [],
+		metaFields: [],
+	} );
+
+	useEffect( () => {
+		let mounted = true;
+
+		( async () => {
+			const request = await apiFetch( {
+				path: `/asux/v1/fields`,
+			} );
+
+			if ( request.success && mounted ) {
+				const {
+					user_fields: userFields,
+					meta_fields: metaFields,
+				} = request.data;
+
+				setFieldSelectors( {
+					loading: false,
+					userFields,
+					metaFields,
+				} );
+			}
+		} )();
+
+		return () => {
+			mounted = false;
+		};
+	}, [] );
+
 	return (
 		<TabPanel
 			className="asux__main-tabs"
@@ -34,13 +83,13 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 					name: 'profiles',
 					title: __( 'Export profiles', 'asux' ),
 					className: tabClassName,
-					component: Profiles,
+					component: ({navigateToTab}) => <Profiles profiles={profiles} navigateToTab={navigateToTab} />,
 				},
 				{
 					name: 'add_profile',
 					title: __( 'Add profile', 'asux' ),
 					className: tabClassName,
-					component: AddProfile,
+					component: ({navigateToTab}) => <AddProfile fieldSelectors={fieldSelectors} navigateToTab={navigateToTab} />,
 				},
 			] }
 		>
