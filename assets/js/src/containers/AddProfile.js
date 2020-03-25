@@ -116,7 +116,7 @@ const AddProfile = ( { navigateToTab } ) => {
 			<form onSubmit={ onSubmit }>
 				<Panel>
 					<PanelHeader>
-						<h3>{ __( 'Profile settings', 'asux' ) }</h3>
+						<h3>{ __( 'General settings', 'asux' ) }</h3>
 					</PanelHeader>
 					<PanelBody>
 						<PanelRow>
@@ -135,6 +135,11 @@ const AddProfile = ( { navigateToTab } ) => {
 								autoFocus
 							/>
 						</PanelRow>
+					</PanelBody>
+					<PanelHeader>
+						<h3>{ __( 'Display options', 'asux' ) }</h3>
+					</PanelHeader>
+					<PanelBody>
 						<FieldSelector
 							value={ profileSelectors }
 							onChange={ ( selectors ) =>
@@ -146,6 +151,22 @@ const AddProfile = ( { navigateToTab } ) => {
 						<h3>{ __( 'Filter options', 'asux' ) }</h3>
 					</PanelHeader>
 					<PanelBody>
+						<PanelRow>
+							<header>
+								<h3>
+									{ __(
+										'Filter by user role',
+										'asux'
+									) }
+								</h3>
+								<p>
+									{ __(
+										'Optionally filter the export output by user role.',
+										'asux'
+									) }
+								</p>
+							</header>
+						</PanelRow>
 						<RoleSelector
 							value={ profileRolesFilter }
 							onChange={ ( rolesFilter ) =>
@@ -162,18 +183,18 @@ const AddProfile = ( { navigateToTab } ) => {
 								</h3>
 								<p>
 									{ __(
-										'You can optionally filter the user export based on the registration date.',
+										'Optionally filter the user export based on the registration date.',
 										'asux'
 									) }
 								</p>
 							</header>
 						</PanelRow>
-						<PanelRow>
+						<PanelRow className="asux__filter-dates">
 							<DateFieldWithPicker
 								label={ __( 'Registered before', 'asux' ) }
 								value={ profileRegistrationDateFilter.before }
 								help={ __(
-									'When set, only users exported from before this date will be exported.',
+									'Include users registered before this date.',
 									'asux'
 								) }
 								onChange={ ( before ) =>
@@ -182,13 +203,11 @@ const AddProfile = ( { navigateToTab } ) => {
 									)
 								}
 							/>
-						</PanelRow>
-						<PanelRow>
 							<DateFieldWithPicker
 								label={ __( 'Registered after', 'asux' ) }
 								value={ profileRegistrationDateFilter.after }
 								help={ __(
-									'When set, only users exported after before this date will be exported.',
+									'Include users registered after this date.',
 									'asux'
 								) }
 								onChange={ ( after ) =>
