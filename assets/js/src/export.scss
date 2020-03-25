@@ -4,6 +4,7 @@
 @import "~@wordpress/base-styles/breakpoints";
 @import "~@wordpress/base-styles/animations";
 @import "~@wordpress/base-styles/z-index";
+@import "~@woocommerce/components/build-style/style";
 
 #wpcontent {
   padding-left: 0;
@@ -125,6 +126,45 @@
 	align-items: start;
   }
 
+  /** WooCommerce MultiSelect. **/
+  &__select-control-wrapper {
+	flex: 1;
+  }
+
+  .components-panel__row {
+	display: block;
+  }
+
+  .woocommerce-select-control {
+
+	.components-base-control {
+	  // height: auto;
+	  position: relative;
+	}
+
+	.material-icons-outlined {
+	  display: none;
+	}
+
+	&.is-searchable .components-base-control__label {
+	  left: 15px;
+	}
+  }
+
+  @include break-medium() {
+	&__filter-dates.components-panel__row {
+	  display: flex;
+	  margin-left: -15px;
+	  margin-right: -15px;
+	}
+
+	&__filter-dates &__date-field {
+	  width: 50%;
+	  padding: 15px;
+	}
+  }
+
+  /** Profile overview **/
   &__profiles {
 
   }
