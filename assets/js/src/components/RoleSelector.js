@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from '@wordpress/element';
-import {PanelRow, FormTokenField, Spinner} from '@wordpress/components';
+import { PanelRow, FormTokenField, Spinner } from '@wordpress/components';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { RestrictedFormTokenField, MultiSelectField } from './';
@@ -30,16 +30,20 @@ const RoleSelector = ( { value, ...props } ) => {
 	return (
 		<>
 			<PanelRow>
-				{
-					isLoading ? <Spinner/> :
-						<MultiSelectField
-							label={ __( 'Roles', 'asux' ) }
-							controlLabel={ __( 'What roles should be filtered on?', 'asux' ) }
-							suggestions={ roles }
-							value={ value }
-							{ ...props }
-						/>
-				}
+				{ isLoading ? (
+					<Spinner />
+				) : (
+					<MultiSelectField
+						label={ __( 'Roles', 'asux' ) }
+						controlLabel={ __(
+							'What roles should be filtered on?',
+							'asux'
+						) }
+						suggestions={ roles }
+						value={ value }
+						{ ...props }
+					/>
+				) }
 			</PanelRow>
 		</>
 	);

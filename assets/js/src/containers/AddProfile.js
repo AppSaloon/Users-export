@@ -153,12 +153,7 @@ const AddProfile = ( { navigateToTab } ) => {
 					<PanelBody>
 						<PanelRow>
 							<header>
-								<h3>
-									{ __(
-										'Filter by user role',
-										'asux'
-									) }
-								</h3>
+								<h3>{ __( 'Filter by user role', 'asux' ) }</h3>
 								<p>
 									{ __(
 										'Optionally filter the export output by user role.',
