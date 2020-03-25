@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from '@wordpress/element';
-import { PanelRow, FormTokenField } from '@wordpress/components';
+import {PanelRow, FormTokenField, Spinner} from '@wordpress/components';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { RestrictedFormTokenField } from './';
+import { RestrictedFormTokenField, MultiSelectField } from './';
 
 const RoleSelector = ( { value, ...props } ) => {
 	const [ isLoading, setLoading ] = useState( true );
@@ -27,25 +27,19 @@ const RoleSelector = ( { value, ...props } ) => {
 		};
 	}, [] );
 
-	const roleKeys = Object.keys( roles );
-
 	return (
 		<>
 			<PanelRow>
-				<RestrictedFormTokenField
-					disabled={ isLoading }
-					label={ __( 'User role', 'asux' ) }
-					placeholder={ __(
-						'What user role would you like to filter on?',
-						'asux'
-					) }
-					suggestions={ roleKeys }
-					value={ value }
-					displayTransform={ ( token ) =>
-						roles[ token ] ? roles[ token ] : token
-					}
-					{ ...props }
-				/>
+				{
+					isLoading ? <Spinner/> :
+						<MultiSelectField
+							label={ __( 'Roles', 'asux' ) }
+							controlLabel={ __( 'What roles should be filtered on?', 'asux' ) }
+							suggestions={ roles }
+							value={ value }
+							{ ...props }
+						/>
+				}
 			</PanelRow>
 		</>
 	);

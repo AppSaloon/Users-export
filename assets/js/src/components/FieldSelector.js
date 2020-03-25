@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from '@wordpress/element';
-import { PanelRow, TextControl } from '@wordpress/components';
+import {PanelRow, Spinner, TextControl} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { RestrictedFormTokenField } from './';
+import {MultiSelectField, RestrictedFormTokenField} from './';
 
 export const prettifyField = ( field ) => {
 	const words = field.split( /[-_]/ );
@@ -61,46 +61,42 @@ const FieldSelector = ( { value, onChange, ...props } ) => {
 	return (
 		<>
 			<PanelRow>
-				<RestrictedFormTokenField
-					disabled={ isLoading }
-					label={ __( 'User fields', 'asux' ) }
-					placeholder={ __(
-						'What user fields would you like to include?',
-						'asux'
-					) }
-					suggestions={ fieldSelectors.userFields }
-					onChange={ ( tokens ) =>
-						processChanges( { userFields: tokens } )
-					}
-					value={ value.userFields }
-					help={ __(
-						'Select the core user fields to include in the export.',
-						'asux'
-					) }
-					displayTransform={ ( token ) => prettifyField( token ) }
-					{ ...props }
-				/>
+				{
+					isLoading ? <Spinner/> :
+						<MultiSelectField
+							label={__('Standard user fields', 'asux')}
+							controlLabel={ __('Click or start typing to add fields', 'asux') }
+							suggestions={fieldSelectors.userFields}
+							onChange={(tokens) =>
+								processChanges({userFields: tokens})
+							}
+							value={value.userFields}
+							help={__(
+								'Select the standard user fields to include as columns in the export file.',
+								'asux'
+							)}
+							{...props}
+						/>
+				}
 			</PanelRow>
 			<PanelRow>
-				<RestrictedFormTokenField
-					disabled={ isLoading }
-					label={ __( 'Meta fields', 'asux' ) }
-					placeholder={ __(
-						'What meta fields would you like to include?',
-						'asux'
-					) }
-					help={ __(
-						'Select the user-related fields to include in the export.',
-						'asux'
-					) }
-					suggestions={ fieldSelectors.metaFields }
-					onChange={ ( tokens ) =>
-						processChanges( { metaFields: tokens } )
-					}
-					value={ value.metaFields }
-					displayTransform={ ( token ) => prettifyField( token ) }
-					{ ...props }
-				/>
+				{
+					isLoading ? <Spinner/> :
+						<MultiSelectField
+							label={__('Extra meta fields', 'asux')}
+							controlLabel={ __('Click or start typing to add fields', 'asux') }
+							suggestions={fieldSelectors.metaFields}
+							onChange={(tokens) =>
+								processChanges({metaFields: tokens})
+							}
+							value={value.metaFields}
+							help={__(
+								'Select the extra user fields to include as columns in the export file.',
+								'asux'
+							)}
+							{...props}
+						/>
+				}
 			</PanelRow>
 		</>
 	);
