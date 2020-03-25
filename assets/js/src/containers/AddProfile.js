@@ -58,7 +58,7 @@ const defaultProfileFields = {
 	},
 };
 
-const AddProfile = ( { navigateToTab, fieldSelectors } ) => {
+const AddProfile = ( { navigateToTab, fieldSelectors, roles } ) => {
 	const [ profileName, setProfileName ] = useState(
 		defaultProfileFields.name
 	);
@@ -164,6 +164,7 @@ const AddProfile = ( { navigateToTab, fieldSelectors } ) => {
 							</header>
 						</PanelRow>
 						<RoleSelector
+							roles={ roles }
 							value={ profileRolesFilter }
 							onChange={ ( rolesFilter ) =>
 								setProfileRolesFilter( rolesFilter )

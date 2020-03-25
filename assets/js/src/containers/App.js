@@ -25,6 +25,17 @@ const App = () => {
 const Tabs = ( { initialTabName = 'profiles' } ) => {
 	const tabClassName = 'asux__main-tabs-tab';
 
+	const [ fieldSelectors, setFieldSelectors ] = useState( {
+		loading: true,
+		userFields: [],
+		metaFields: [],
+	} );
+
+	const [ roles, setRoles ] = useState( {
+		loading: true,
+		roles: {}
+	} );
+
 	const profiles = useSelect(
 		( select ) =>
 			select( 'core' ).getEntityRecords(
@@ -38,12 +49,6 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 			),
 		[]
 	);
-
-	const [ fieldSelectors, setFieldSelectors ] = useState( {
-		loading: true,
-		userFields: [],
-		metaFields: [],
-	} );
 
 	useEffect( () => {
 		let mounted = true;
@@ -72,6 +77,27 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 		};
 	}, [] );
 
+	useEffect( () => {
+		let mounted = true;
+
+		( async () => {
+			const request = await apiFetch( {
+				path: `/asux/v1/roles`,
+			} );
+
+			if ( request.success && mounted ) {
+				setRoles( {
+					loading: false,
+					roles: request.data,
+				} );
+			}
+		} )();
+
+		return () => {
+			mounted = false;
+		};
+	}, [] );
+
 	return (
 		<TabPanel
 			className="asux__main-tabs"
@@ -89,7 +115,7 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 					name: 'add_profile',
 					title: __( 'Add profile', 'asux' ),
 					className: tabClassName,
-					component: ({navigateToTab}) => <AddProfile fieldSelectors={fieldSelectors} navigateToTab={navigateToTab} />,
+					component: ({navigateToTab}) => <AddProfile fieldSelectors={fieldSelectors} roles={roles} navigateToTab={navigateToTab} />,
 				},
 			] }
 		>
