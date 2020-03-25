@@ -1,7 +1,7 @@
 import React from '@wordpress/element';
 import { BaseControl } from '@wordpress/components';
 import { SelectControl } from '@woocommerce/components';
-import { prettifyField } from './FieldSelector';
+import { prettifyField } from '../util';
 import sortBy from 'lodash/sortBy';
 import { __ } from '@wordpress/i18n';
 
