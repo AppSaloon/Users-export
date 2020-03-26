@@ -59,6 +59,8 @@ const defaultProfileFields = {
 };
 
 const AddProfile = ( { fieldSelectors, roles, onProfileAdd } ) => {
+	const [ isSaving, setSaving ] = useState( false );
+
 	const [ profileName, setProfileName ] = useState(
 		defaultProfileFields.name
 	);
@@ -85,6 +87,8 @@ const AddProfile = ( { fieldSelectors, roles, onProfileAdd } ) => {
 		if ( profileName.length < 3 ) {
 			return alert( __( 'Please enter a profile name', 'asux' ) );
 		}
+
+		setSaving( true );
 
 		const postData = {
 			title: profileName,
@@ -213,6 +217,7 @@ const AddProfile = ( { fieldSelectors, roles, onProfileAdd } ) => {
 							<Button
 								isPrimary
 								isLarge
+								isBusy={ isSaving }
 								label={ __( 'Add profile', 'asux' ) }
 								type="submit"
 							>

@@ -51,11 +51,9 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 		},
 	];
 
-	const {
-		saveEntityRecord,
-		invalidateResolutionForStore,
-		editEntityRecord,
-	} = useDispatch( 'core' );
+	const { saveEntityRecord, invalidateResolutionForStore } = useDispatch(
+		'core'
+	);
 
 	const fetchedProfiles = useSelect(
 		( select ) =>

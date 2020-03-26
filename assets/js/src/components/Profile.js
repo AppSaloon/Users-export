@@ -61,7 +61,9 @@ const Profile = ( {
 									</strong>
 									<div className="asux__profile-setting-value">
 										{ userFields.map( ( userField ) => (
-											<span>{ userField }</span>
+											<span key={ userField }>
+												{ userField }
+											</span>
 										) ) }
 									</div>
 								</div>
@@ -73,7 +75,9 @@ const Profile = ( {
 									</strong>
 									<div className="asux__profile-setting-value">
 										{ metaFields.map( ( metaField ) => (
-											<span>{ metaField }</span>
+											<span key={ metaField }>
+												{ metaField }
+											</span>
 										) ) }
 									</div>
 								</div>
@@ -95,7 +99,7 @@ const Profile = ( {
 									</strong>
 									<div className="asux__profile-setting-value">
 										{ roles.map( ( role ) => (
-											<span>{ role }</span>
+											<span key={ role }>{ role }</span>
 										) ) }
 									</div>
 								</div>
