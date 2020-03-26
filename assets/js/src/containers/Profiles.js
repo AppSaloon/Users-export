@@ -25,7 +25,14 @@ const Profiles = ( { profiles, onProfileTrash } ) => {
 									key={ profile.id }
 									profile={ profile }
 									onDelete={ () =>
-										trashProfile( profile.id )
+										( async ( id ) => {
+											confirm(
+												__(
+													'Are you sure you want to delete this profile?',
+													'asux'
+												)
+											) && trashProfile( id );
+										} )( profile.id )
 									}
 								/>
 							)
