@@ -172,13 +172,22 @@
   &__profile {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	border: 1px solid $light-gray-500;
-	padding: 5px;
 	margin-bottom: 4px;
 
-	&-details {
+
+	&-information {
 	  flex: 1;
+	}
+
+	&-details {
+	  cursor: pointer;
+	  padding: 5px;
+
+	  &:hover {
+		background-color: $light-gray-100;
+	  }
 	}
 
 	&-title {
@@ -193,12 +202,52 @@
 	}
 
 	&-actions {
+	  padding: 5px;
 	  display: flex;
 	  justify-content: flex-end;
 	  align-items: center;
 
 	  &-delete {
 		color: $alert-red;
+	  }
+	}
+
+	&-settings {
+	  padding: 5px;
+
+	  &-columns {
+		@include break-medium() {
+		  display: flex;
+		  margin-left: -15px;
+		  margin-right: -15px;
+
+		  > div {
+			width: 50%;
+			padding: 15px;
+		  }
+		}
+	  }
+
+	  h4 {
+		margin-bottom: 5px;
+	  }
+	}
+
+	&-setting {
+	  &-title {
+		font-size: 0.9em;
+	  }
+
+	  &-value {
+		span {
+		  display: inline-block;
+		  font-size: 0.75em;
+		  text-transform: uppercase;
+		  background: $light-gray-200;
+		  border-radius: 3px;
+		  padding: 3px 5px;
+		  margin: 2px;
+		}
 	  }
 	}
   }

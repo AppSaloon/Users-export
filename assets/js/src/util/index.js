@@ -1,3 +1,5 @@
+import { __experimentalGetSettings, dateI18n } from '@wordpress/date';
+
 export const prettifyField = ( field ) => {
 	const words = field.split( /[-_]/ );
 
@@ -7,4 +9,14 @@ export const prettifyField = ( field ) => {
 	}
 
 	return words.join( ' ' );
+};
+
+export const displayDate = ( date, convertToMilliseconds = false ) => {
+	const settings = __experimentalGetSettings();
+
+	if ( convertToMilliseconds ) {
+		date *= 1000;
+	}
+
+	return dateI18n( settings.formats.datetime, date );
 };
