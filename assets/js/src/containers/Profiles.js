@@ -1,6 +1,6 @@
-import React, { useCallback } from '@wordpress/element';
+import React from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import '@wordpress/core-data';
 import { IconButton, Spinner } from '@wordpress/components';
 import { __experimentalGetSettings, dateI18n } from '@wordpress/date';
@@ -56,15 +56,10 @@ const Profile = ( {
 	);
 };
 
-const Profiles = ( { profiles } ) => {
-	const trashProfile = useCallback( async ( id ) => {
-		await apiFetch( {
-			path: `/wp/v2/asux_export-profile/${ id }`,
-			method: 'DELETE',
-		} );
-
-		window.location.reload();
-	} );
+const Profiles = ( { profiles, onProfileTrash } ) => {
+	const trashProfile = ( id ) => {
+		onProfileTrash( id );
+	};
 
 	return (
 		<div className="asux__profile-container">
@@ -72,18 +67,23 @@ const Profiles = ( { profiles } ) => {
 				{ __( 'Existing profiles', 'asux' ) }
 			</h2>
 			<div className="asux__profiles">
-				{ ! profiles ? (
+				{ profiles.loading ? (
 					<Spinner />
 				) : (
-					profiles.map( ( profile ) => (
-						<Profile
-							key={ profile.id }
-							profile={ profile }
-							onDelete={ () => trashProfile( profile.id ) }
-						/>
-					) )
+					profiles.profiles.map(
+						( profile ) =>
+							profile && (
+								<Profile
+									key={ profile.id }
+									profile={ profile }
+									onDelete={ () =>
+										trashProfile( profile.id )
+									}
+								/>
+							)
+					)
 				) }
-				{ profiles && profiles.length === 0 && (
+				{ ! profiles.loading && profiles.profiles.length === 0 && (
 					<em>
 						{ __(
 							'You have yet to create an export profile.',

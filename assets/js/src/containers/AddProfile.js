@@ -58,7 +58,7 @@ const defaultProfileFields = {
 	},
 };
 
-const AddProfile = ( { navigateToTab, fieldSelectors, roles } ) => {
+const AddProfile = ( { fieldSelectors, roles, onProfileAdd } ) => {
 	const [ profileName, setProfileName ] = useState(
 		defaultProfileFields.name
 	);
@@ -73,15 +73,13 @@ const AddProfile = ( { navigateToTab, fieldSelectors, roles } ) => {
 		setProfileRegistrationDateFilter,
 	] = useState( defaultProfileFields.filters.registrationDate );
 
-	const { saveEntityRecord } = useDispatch( 'core' );
-
 	const formatTimeStamp = ( date ) => {
 		if ( ! date ) return 0;
 
 		return new Date( date ).getTime() / 1000;
 	};
 
-	const onSubmit = useCallback( async ( e ) => {
+	const onSubmit = ( e ) => {
 		e.preventDefault();
 
 		if ( profileName.length < 3 ) {
@@ -104,9 +102,8 @@ const AddProfile = ( { navigateToTab, fieldSelectors, roles } ) => {
 			},
 		};
 
-		await saveEntityRecord( 'postType', 'asux_export-profile', postData );
-		navigateToTab( 'profiles' );
-	} );
+		onProfileAdd( postData );
+	};
 
 	return (
 		<div className="asux__profile-container">
@@ -129,9 +126,7 @@ const AddProfile = ( { navigateToTab, fieldSelectors, roles } ) => {
 									'Give this profile a name, so you can recognize it later.',
 									'asux'
 								) }
-								onChange={ ( name ) =>
-									setProfileName( name.trim() )
-								}
+								onChange={ ( name ) => setProfileName( name ) }
 								autoFocus
 							/>
 						</PanelRow>

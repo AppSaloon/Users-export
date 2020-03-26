@@ -30,6 +30,12 @@ class TabPanel extends Component {
 		};
 	}
 
+	componentDidUpdate( prevProps ) {
+		if ( this.props.initialTabName !== prevProps.initialTabName ) {
+			this.handleClick( this.props.initialTabName );
+		}
+	}
+
 	handleClick( tabKey ) {
 		const { onSelect = noop } = this.props;
 		this.setState( {
@@ -88,7 +94,7 @@ class TabPanel extends Component {
 						className="components-tab-panel__tab-content"
 						tabIndex="0"
 					>
-						{ this.props.children( selectedTab, this.handleClick ) }
+						{ this.props.children( selectedTab ) }
 					</div>
 				) }
 			</div>
