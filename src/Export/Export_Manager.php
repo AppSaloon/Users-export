@@ -171,7 +171,8 @@ class Export_Manager {
 
 		$output = ob_get_clean();
 
-		$filename = "{$profile->post_name}.csv";
+		$date = (new \DateTime())->format('Ymdhis');
+		$filename = "{$profile->post_name}-{$date}.csv";
 
 		// Output CSV-specific headers
 		header( 'Pragma: public' );
