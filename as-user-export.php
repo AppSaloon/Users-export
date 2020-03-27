@@ -3,7 +3,7 @@
 Plugin Name: User Export - AppSaloon
 Plugin URI:
 Description: Exports user to csv file
-Version: 1.0.1
+Version: 1.0.2
 Author: AppSaloon
 Author URI: https://www.appsaloon.be/
 */
@@ -12,7 +12,7 @@ define( 'ASUX_PLUGIN_FILE', __FILE__ );
 define( 'ASUX_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ASUX_PLUGIN_SLUG', dirname( plugin_basename( __FILE__ ) ) );
 define( 'ASUX_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'ASUX_PLUGIN_VERSION', '1.0.1' );
+define( 'ASUX_PLUGIN_VERSION', '1.0.2' );
 
 if ( ! file_exists( ASUX_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
 	// Fail early if no dependencies were found. Before attempting to load classes.
