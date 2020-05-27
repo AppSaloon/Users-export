@@ -71,7 +71,27 @@ class Export_Manager {
 		$user_fields   = array_unique( (array) maybe_unserialize( get_post_meta( $profile_id, '_asux_fields', true ) ) );
 		$meta_fields   = array_unique( (array) maybe_unserialize( get_post_meta( $profile_id, '_asux_meta_fields', true ) ) );
 
-		$field_names = array_merge( $user_fields, $meta_fields );
+		$um_fields              = Profile_Manager::get_um_fields();
+		$um_field_keys_unsorted = array_unique( (array) maybe_unserialize( get_post_meta( $profile_id, '_asux_um_fields', true ) ) );
+		$um_field_keys          = array();
+		foreach ( $um_fields as $um_field ) {
+			if ( in_array( $um_field['key'], $um_field_keys_unsorted ) ) {
+				array_push( $um_field_keys, $um_field['key'] );
+			}
+		}
+		$um_field_labels = array_map(
+			static function ( $um_field ) {
+				return $um_field['label'];
+			},
+			array_filter(
+				$um_fields,
+				static function ( $um_field ) use ( $um_field_keys ) {
+					return in_array( $um_field['key'], $um_field_keys );
+				}
+			)
+		);
+
+		$field_names = array_merge( $user_fields, $meta_fields, $um_field_labels );
 
 		/* "Querybuilder" from den Aldi */
 		$query = '';
@@ -89,6 +109,15 @@ class Export_Manager {
 
 		if ( ! empty( $meta_fields ) ) {
 			$select .= array_reduce( $meta_fields, function ( $meta_select, $meta_field ) {
+				$field_name  = esc_sql( $meta_field );
+				$meta_select .= ",\n\tMAX(CASE WHEN um1.meta_key = '{$field_name}' THEN um1.meta_value ELSE NULL END) as {$field_name}";
+
+				return $meta_select;
+			}, "" );
+		}
+
+		if ( ! empty( $um_field_keys ) ) {
+			$select .= array_reduce( $um_field_keys, function ( $meta_select, $meta_field ) {
 				$field_name  = esc_sql( $meta_field );
 				$meta_select .= ",\n\tMAX(CASE WHEN um1.meta_key = '{$field_name}' THEN um1.meta_value ELSE NULL END) as {$field_name}";
 

@@ -60,6 +60,29 @@ const FieldSelector = ( { value, onChange, fieldSelectors, ...props } ) => {
 					/>
 				) }
 			</PanelRow>
+			<PanelRow>
+				{ fieldSelectors.loading ? (
+					<Spinner />
+				) : (
+					<MultiSelectField
+						label={ __( 'Ultimate Member fields', 'asux' ) }
+						controlLabel={ __(
+							'Click or start typing to add fields',
+							'asux'
+						) }
+						suggestions={ fieldSelectors.umFields }
+						onChange={ ( tokens ) =>
+							processChanges( { umFields: tokens } )
+						}
+						value={ value.umFields }
+						help={ __(
+							'Select the Ultimate Member fields to include as columns in the export file.',
+							'asux'
+						) }
+						{ ...props }
+					/>
+				) }
+			</PanelRow>
 		</>
 	);
 };

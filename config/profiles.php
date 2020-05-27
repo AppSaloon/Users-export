@@ -125,6 +125,32 @@ return [
 				});
 			},
 		],
+		'_asux_um_fields' => [
+			'type'              => 'array',
+			'description'       => __( 'Ultimate Member fields to be included in the export.', 'asux' ),
+			'single'            => true,
+			'auth_callback'     => '__return_true',
+			'show_in_rest'      => [
+				'schema' => [
+					'type'  => 'array',
+					'items' => [
+						'type' => 'string',
+					],
+				],
+			],
+			'sanitize_callback' => static function ( $submitted_fields ) {
+				$fields = array_map(
+					static function ( $um_field ) {
+						return $um_field['key'];
+					},
+					Profile_Manager::get_available_fields()->um_fields
+				);
+
+				return array_filter( $submitted_fields, static function ( $submitted_field ) use ( $fields ) {
+					return in_array( $submitted_field, $fields, true );
+				} );
+			},
+		],
 	],
 	// </editor-fold>
 ];

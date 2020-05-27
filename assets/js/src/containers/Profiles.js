@@ -4,7 +4,7 @@ import '@wordpress/core-data';
 import { Spinner } from '@wordpress/components';
 import { Profile } from '../components';
 
-const Profiles = ( { profiles, onProfileTrash } ) => {
+const Profiles = ( { profiles, umFields, onProfileTrash } ) => {
 	const trashProfile = ( id ) => {
 		onProfileTrash( id );
 	};
@@ -24,6 +24,7 @@ const Profiles = ( { profiles, onProfileTrash } ) => {
 								<Profile
 									key={ profile.id }
 									profile={ profile }
+									umFields={ umFields }
 									onDelete={ () =>
 										( async ( id ) => {
 											confirm(

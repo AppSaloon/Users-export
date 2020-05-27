@@ -63,6 +63,15 @@ class Profile_Manager {
 		] );
 		$meta_fields_to_skip = apply_filters( 'asux/meta_fields_to_skip', [] );
 
+		$um_fields           = static::get_um_fields();
+		$um_fields_metakeys  = array_map(
+			static function ( $um_field ) {
+				return $um_field['key'];
+			},
+			$um_fields
+		);
+		$meta_fields_to_skip = array_merge( $meta_fields_to_skip, $um_fields_metakeys );
+
 		$meta_fields = $wpdb->get_col(
 			"SELECT
 					`meta_key`,
@@ -89,7 +98,51 @@ class Profile_Manager {
 					}
 				)
 			),
+			'um_fields' => $um_fields,
 		];
+	}
+
+	public static function get_um_fields() {
+		global $wpdb;
+		$sql                   = "SELECT meta_value
+				FROM $wpdb->postmeta
+				WHERE meta_key='_um_custom_fields'
+		";
+		$custom_fields_entries = $wpdb->get_col( $sql );
+		$custom_fields_entries = array_map(
+			static function ( string $serialized_array ) {
+				return unserialize( $serialized_array );
+			},
+			$custom_fields_entries
+		);
+		$metakeys              = array();
+		foreach ( $custom_fields_entries as $custom_fields_entry ) {
+			$custom_fields = array_values( $custom_fields_entry );
+			foreach ( $custom_fields as $custom_field ) {
+				$invalid_types       = array(
+					'row',
+					'block',
+					'spacing',
+					'divider',
+					'password',
+					'shortcode',
+				);
+				$is_valid_type       = isset( $custom_field['type'] ) && in_array( $custom_field['type'], $invalid_types ) === false;
+				$has_metakey         = isset( $custom_field['metakey'] );
+				$is_distinct_metakey = $has_metakey && array_key_exists( $custom_field['metakey'], $metakeys ) === false;
+				if ( $is_valid_type && $is_distinct_metakey ) {
+					$metakeys[ $custom_field['metakey'] ] = array(
+						"key"   => $custom_field['metakey'],
+						"label" => $custom_field['title']
+					);
+				}
+			}
+		}
+		usort( $metakeys, function ( $a, $b ) {
+			return strcmp( $a['label'], $b['label'] );
+		} );
+
+		return array_values( $metakeys );
 	}
 
 	public static function roles_rest_endpoint(): void {

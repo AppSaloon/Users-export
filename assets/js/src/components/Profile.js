@@ -19,13 +19,23 @@ const Profile = ( {
 			_asux_filter_date_after: registeredAfter,
 			_asux_fields: userFields,
 			_asux_meta_fields: metaFields,
+			_asux_um_fields: umFieldKeys,
 		},
 		_links: {
 			'asux:export': [ { href: exportLink } ],
 		},
 	},
+	umFields,
 } ) => {
 	const [ isOpen, setOpen ] = useState( false );
+
+	const getUmFieldLabel = (umFieldKey) => {
+		const umField = umFields.find(({key}) => key === umFieldKey)
+		if (umField && umField.label) {
+			return umField.label
+		}
+		return umFieldKey
+	}
 
 	return (
 		<div className="asux__profile">
@@ -77,6 +87,20 @@ const Profile = ( {
 										{ metaFields.map( ( metaField ) => (
 											<span key={ metaField }>
 												{ metaField }
+											</span>
+										) ) }
+									</div>
+								</div>
+							) }
+							{ ! isEmpty( umFieldKeys ) && (
+								<div>
+									<strong className="asux__profile-setting-title">
+										{ __( 'Ultimate Member fields', 'asux' ) }
+									</strong>
+									<div className="asux__profile-setting-value">
+										{ umFieldKeys.map( ( umFieldKey ) => (
+											<span key={ umFieldKey }>
+												{ getUmFieldLabel(umFieldKey) }
 											</span>
 										) ) }
 									</div>

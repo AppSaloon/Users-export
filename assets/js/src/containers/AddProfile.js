@@ -96,6 +96,7 @@ const AddProfile = ( { fieldSelectors, roles, onProfileAdd } ) => {
 			meta: {
 				_asux_fields: profileSelectors.userFields,
 				_asux_meta_fields: profileSelectors.metaFields,
+				_asux_um_fields: profileSelectors.umFields,
 				_asux_filter_roles: profileRolesFilter,
 				_asux_filter_date_before: formatTimeStamp(
 					profileRegistrationDateFilter.before

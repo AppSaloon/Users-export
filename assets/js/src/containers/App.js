@@ -27,6 +27,7 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 		loading: true,
 		userFields: [],
 		metaFields: [],
+		umFields: [],
 	} );
 
 	const [ roles, setRoles ] = useState( {
@@ -94,12 +95,14 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 				const {
 					user_fields: userFields,
 					meta_fields: metaFields,
+					um_fields: umFields,
 				} = request.data;
 
 				setFieldSelectors( {
 					loading: false,
 					userFields,
 					metaFields,
+					umFields,
 				} );
 			}
 		} )();
@@ -175,6 +178,7 @@ const Tabs = ( { initialTabName = 'profiles' } ) => {
 					component: Profiles,
 					componentProps: {
 						profiles,
+						umFields: fieldSelectors.umFields,
 						onProfileTrash: trashProfile,
 					},
 				},
