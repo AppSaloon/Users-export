@@ -175,6 +175,8 @@ class Export_Manager {
 		update_post_meta( $profile_id, '_asux_last_run', time() );
 
 		$output_stream = fopen( 'php://output', 'wb' );
+
+		ob_clean(); // clean PHP notices before buffering
 		ob_start();
 
 		fputcsv( $output_stream, $field_names );
