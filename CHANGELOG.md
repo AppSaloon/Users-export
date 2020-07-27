@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 2020-07-15 1.1.1 DAVID
+## 2020-07-27 1.1.2 DAVID
+
+### Added
+- bitbucket-pipelines.yml
+
+
+## 2020-07-27 1.1.1 DAVID
 
 ### Fixed
 - cleaned PHP notice html from CSV output
