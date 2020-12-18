@@ -3,7 +3,7 @@
 Plugin Name: User Export - AppSaloon
 Plugin URI:
 Description: Exports user to csv file
-Version: 1.1.2
+Version: 1.1.3
 Author: AppSaloon
 Author URI: https://www.appsaloon.be/
 */
