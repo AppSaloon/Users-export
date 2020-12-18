@@ -55,5 +55,18 @@
       ]
     },
     "wordpress-install-dir": "wp"
+  },
+  "archive": {
+	"exclude": [
+	  ".gitignore",
+	  "*.yml",
+	  "tests/",
+	  "composer.json",
+	  "composer.lock",
+	  "phpunit.xml.dist",
+	  "README.md",
+	  "regenerate_docs.sh",
+	  "!vendor/*"
+	]
   }
 }
